@@ -32,7 +32,7 @@ func NewsInfo(query string) (model.NewsData, error) {
 	if err := json.Unmarshal(body, &newsData); err != nil {
 		return newsData, fmt.Errorf("unable to unmarshal json body: %w", err)
 	}
-
+	
 	return newsData, nil
 }
 
@@ -79,11 +79,10 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	cache.RedisConn()
-
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/", Index)
-	mux.HandleFunc("GET /api/news", NewsHandler) // Fixed route
+	mux.HandleFunc("GET /api/news", NewsHandler)
 
 	if err := http.ListenAndServe(":8080", mux); err != nil {
 		log.Fatal("error connecting to port:", err)
